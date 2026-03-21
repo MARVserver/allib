@@ -12,5 +12,5 @@ tasks.register<Jar>("sourcesJar") {
 }
 
 tasks.withType<PublishToMavenLocal> {
-    dependsOn(tasks.withType<Jar::class>)
+    dependsOn(tasks.withType<Jar>())
 }
