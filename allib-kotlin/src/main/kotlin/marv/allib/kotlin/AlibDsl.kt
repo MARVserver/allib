@@ -14,7 +14,7 @@ public object AlibDsl {
         scope.block()
     }
 
-    public fun <T> registry(block: RegistryScope<T>.() -> Unit) {
+    public fun <T : Any> registry(block: RegistryScope<T>.() -> Unit) {
         val scope = RegistryScope<T>()
         scope.block()
     }

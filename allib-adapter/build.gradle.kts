@@ -2,11 +2,6 @@ plugins {
     id("java-library")
 }
 
-repositories {
-    maven("https://repo.dmulloy2.net/repository/public/")
-    maven("https://mvn.luckperms.net/releases")
-}
-
 dependencies {
     compileOnly(project(":allib-contracts"))
     compileOnly(project(":allib-registry"))
