@@ -1,5 +1,6 @@
 package marv.allib.kotlin
 
+import kotlin.coroutines.CoroutineContext
 import kotlinx.coroutines.*
 import marv.allib.contracts.ScheduledTask
 import marv.allib.scheduler.SchedulerBridge
@@ -15,12 +16,12 @@ public object AlibDispatchers {
 private val BukkitDispatcher = Dispatchers.Unconfined
 
 private object RegionElement : CoroutineContext.Element {
-    override val key: CoroutineContext.Key<*> = Key
+    override val key: CoroutineContext.Key<RegionElement> = Key
     object Key : CoroutineContext.Key<RegionElement>
 }
 
 private object AsyncElement : CoroutineContext.Element {
-    override val key: CoroutineContext.Key<*> = Key
+    override val key: CoroutineContext.Key<AsyncElement> = Key
     object Key : CoroutineContext.Key<AsyncElement>
 }
 

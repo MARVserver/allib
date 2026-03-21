@@ -88,6 +88,7 @@ class AlibKspProcessor(
     )
 }
 
+@AutoService(SymbolProcessorProvider::class)
 class AlibKspProcessorProvider : SymbolProcessorProvider {
     override fun create(environment: SymbolProcessorEnvironment): SymbolProcessor {
         return AlibKspProcessor(

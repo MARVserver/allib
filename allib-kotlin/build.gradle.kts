@@ -7,6 +7,7 @@ dependencies {
     compileOnly(project(":allib-contracts"))
     compileOnly(project(":allib-scheduler"))
     compileOnly(project(":allib-registry"))
+    compileOnly(project(":allib-api"))
     compileOnly("org.spigotmc:spigot-api:1.21-R0.1-SNAPSHOT")
     api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
 }
