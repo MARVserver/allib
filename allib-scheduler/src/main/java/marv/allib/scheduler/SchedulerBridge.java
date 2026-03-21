@@ -18,7 +18,12 @@ public class SchedulerBridge implements ISchedulerProvider {
 
     private static ISchedulerProvider createProvider() {
         if (ServerEnvironment.isFolia()) {
-            return new FoliaSchedulerProvider();
+            try {
+                return (ISchedulerProvider) Class.forName("marv.allib.scheduler.FoliaSchedulerProvider")
+                        .getDeclaredConstructor().newInstance();
+            } catch (Exception e) {
+                throw new RuntimeException("Failed to load FoliaSchedulerProvider", e);
+            }
         }
         if (Runtime.version().feature() >= 21) {
             return new VirtualThreadProvider();
