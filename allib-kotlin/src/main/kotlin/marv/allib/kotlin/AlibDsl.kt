@@ -14,7 +14,7 @@ public object AlibDsl {
         scope.block()
     }
 
-    public fun <T> registry(block: RegistryScope<T>.() -> Unit) where T : Any {
+    public fun <T> registry(block: RegistryScope<T>.() -> Unit) {
         val scope = RegistryScope<T>()
         scope.block()
     }
@@ -23,8 +23,8 @@ public object AlibDsl {
 @AlibDsl.AlibDslMarker
 public class AlibScope {
 
-    public fun scheduler(block: SchedulerScope.() -> Unit) {
-        SchedulerScope().block()
+    public fun scheduler(block: SchedulerDsl.SchedulerScope.() -> Unit) {
+        SchedulerDsl.SchedulerScope().block()
     }
 
     public fun <T : Any> service(clazz: Class<T>, instance: T, version: String) {
@@ -41,7 +41,7 @@ public class AlibScope {
 }
 
 @AlibDsl.AlibDslMarker
-public class RegistryScope<T : Any> where T : Any {
+public class RegistryScope<T : Any> {
 
     private var serviceClass: Class<T>? = null
     private var instance: T? = null

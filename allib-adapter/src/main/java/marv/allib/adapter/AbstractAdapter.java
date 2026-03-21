@@ -13,6 +13,7 @@ public abstract class AbstractAdapter implements IAlibService {
     protected abstract void onUnload();
 
     @Override
+    @SuppressWarnings("unchecked")
     public final void load() {
         String pluginId = getTargetPluginId();
         if (!Bukkit.getPluginManager().isPluginEnabled(pluginId)) {
@@ -23,13 +24,16 @@ public abstract class AbstractAdapter implements IAlibService {
         String version = annotation != null ? annotation.version() : "unknown";
 
         onLoad();
-        AlibRegistry.register(getServiceInterface(), this, version, "allib-adapter");
+        Class<Object> iface = (Class<Object>) getServiceInterface();
+        AlibRegistry.register(iface, this, version, "allib-adapter");
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public final void unload() {
         onUnload();
-        AlibRegistry.unregister(getServiceInterface(), this);
+        Class<Object> iface = (Class<Object>) getServiceInterface();
+        AlibRegistry.unregister(iface, this);
     }
 
     protected abstract Class<?> getServiceInterface();
