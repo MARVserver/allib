@@ -8,12 +8,6 @@ dependencies {
     compileOnly("org.spigotmc:spigot-api:1.21-R0.1-SNAPSHOT")
 }
 
-configurations {
-    archives {
-        outgoing.artifacts(provider { tasks.jar.get() })
-    }
-}
-
 tasks.register<Jar>("sourcesJar") {
     archiveClassifier.set("sources")
     from(sourceSets.main.get().allJava)
