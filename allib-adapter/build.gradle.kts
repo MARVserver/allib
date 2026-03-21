@@ -8,8 +8,10 @@ dependencies {
     compileOnly("org.spigotmc:spigot-api:1.21-R0.1-SNAPSHOT")
 }
 
-artifacts {
-    archives jar
+configurations {
+    archives {
+        outgoing.artifacts(provider { tasks.jar.get() })
+    }
 }
 
 tasks.register<Jar>("sourcesJar") {
