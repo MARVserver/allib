@@ -19,7 +19,9 @@ jobs:
           cache: 'gradle'
 
       - name: Setup Gradle
-        run: chmod +x gradlew
+        run: |
+          sed -i '1s|#!/bin/sh|#!/usr/bin/env bash|' gradlew
+          chmod +x gradlew
 
       - name: Build
         run: ./gradlew build
