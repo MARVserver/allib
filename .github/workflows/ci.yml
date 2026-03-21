@@ -24,7 +24,4 @@ jobs:
           chmod +x gradlew
 
       - name: Build
-        run: ./gradlew build
-
-      - name: Build shadowJar
-        run: ./gradlew shadowJar
+        run: ./gradlew build --rerun-tasks --no-daemon
