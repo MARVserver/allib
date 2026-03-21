@@ -46,7 +46,7 @@ public class BukkitSchedulerProvider implements ISchedulerProvider {
 
         @Override
         public void run() {
-            task.run();
+            throw new UnsupportedOperationException("Bukkit scheduled tasks cannot be explicitly re-run");
         }
 
         @Override
