@@ -1,6 +1,11 @@
 package marv.allib.registry;
 
 import org.bukkit.Bukkit;
+import org.bukkit.event.Event;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.event.server.PluginDisableEvent;
+import org.bukkit.plugin.EventExecutor;
 
 import java.util.List;
 import java.util.Map;
@@ -18,10 +23,13 @@ public class LifecycleManager {
     public void unregisterPlugin(String pluginId) {
         List<ServiceEntry<?>> entries = pluginEntries.remove(pluginId);
         if (entries != null) {
-            entries.forEach(entry -> {
-                AlibRegistry.unregister(entry.serviceClass(), entry.instance());
-            });
+            entries.forEach(this::unregisterEntry);
         }
+    }
+
+    @SuppressWarnings("unchecked")
+    private <T> void unregisterEntry(ServiceEntry<?> entry) {
+        AlibRegistry.unregister((Class<T>) entry.serviceClass(), (T) entry.instance());
     }
 
     public void clear() {
@@ -30,23 +38,23 @@ public class LifecycleManager {
 
     public static void setupAutoCleanup() {
         try {
-            var disableHandler = new org.bukkit.event.EventExecutor() {
-                @Override
-                public void execute(Object listener, org.bukkit.event.Event event) throws Exception {
-                    if (event instanceof org.bukkit.event.server.PluginDisableEvent disableEvent) {
-                        AlibRegistry.unregisterPlugin(disableEvent.getPlugin().getName());
-                    }
+            Listener listener = new Listener() {};
+            EventExecutor executor = (l, event) -> {
+                if (event instanceof PluginDisableEvent disableEvent) {
+                    AlibRegistry.unregisterPlugin(disableEvent.getPlugin().getName());
                 }
             };
 
-            Bukkit.getPluginManager().registerEvent(
-                org.bukkit.event.server.PluginDisableEvent.class,
-                (org.bukkit.Listener) () -> {},
-                org.bukkit.event.EventPriority.NORMAL,
-                disableHandler,
-                LifecycleManager.class.getClassLoader(),
-                false
-            );
+            if (Bukkit.getPluginManager().getPlugins().length > 0) {
+                Bukkit.getPluginManager().registerEvent(
+                    PluginDisableEvent.class,
+                    listener,
+                    EventPriority.NORMAL,
+                    executor,
+                    Bukkit.getPluginManager().getPlugins()[0],
+                    false
+                );
+            }
         } catch (Exception e) {
             Bukkit.getLogger().warning("[allib] Failed to setup auto-cleanup: " + e.getMessage());
         }
