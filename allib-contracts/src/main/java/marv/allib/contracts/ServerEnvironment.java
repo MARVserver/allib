@@ -16,11 +16,11 @@ public enum ServerEnvironment {
         try {
             Class.forName("io.papermc.paper.threadedregions.scheduler.RegionScheduler");
             cached = FOLIA;
-        } catch (ClassNotFoundException _) {
+        } catch (ClassNotFoundException ignored) {
             try {
                 Class.forName("com.destroystokyo.paper.ParticleBuilder");
                 cached = PAPER;
-            } catch (ClassNotFoundException __) {
+            } catch (ClassNotFoundException ignored2) {
                 cached = SPIGOT;
             }
         }
