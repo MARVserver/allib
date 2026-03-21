@@ -15,10 +15,6 @@ kotlin {
     jvmToolchain(21)
 }
 
-artifacts {
-    archives jar
-}
-
 tasks.register<Jar>("sourcesJar") {
     archiveClassifier.set("sources")
     from(sourceSets.main.get().allSource)
