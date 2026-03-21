@@ -4,6 +4,10 @@ plugins {
     id("com.github.johnrengelman.shadow") version "8.1.1"
 }
 
+repositories {
+    mavenCentral()
+}
+
 val shadowJar = tasks.named<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar>("shadowJar") {
     archiveClassifier.set("")
     archiveBaseName.set("allib")
