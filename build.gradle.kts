@@ -2,7 +2,11 @@ plugins {
     `java-library`
     kotlin("jvm") version "1.9.22"
     id("com.github.johnrengelman.shadow") version "8.1.1"
+    `maven-publish`
 }
+
+group = "marv.allib"
+version = "1.0.0"
 
 repositories {
     mavenCentral()
@@ -18,6 +22,10 @@ dependencies {
 }
 
 subprojects {
+    apply(plugin = "maven-publish")
+    group = "marv.allib"
+    version = "1.0.0"
+
     repositories {
         mavenCentral()
         maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
