@@ -47,11 +47,8 @@ public class ProtocolLibAdapter extends AbstractAdapter {
 
     @Override
     public String version() {
-        try {
-            return protocolManager.getVersion().getVersion();
-        } catch (Exception e) {
-            return "unknown";
-        }
+        org.bukkit.plugin.Plugin pl = Bukkit.getPluginManager().getPlugin("ProtocolLib");
+        return pl != null ? pl.getDescription().getVersion() : "unknown";
     }
 
     public ProtocolManager getProtocolManager() {
@@ -60,6 +57,7 @@ public class ProtocolLibAdapter extends AbstractAdapter {
 
     public interface IProtocolLibBridge extends marv.allib.contracts.IAlibService {
         ProtocolManager getProtocolManager();
+
         String getVersion();
     }
 }

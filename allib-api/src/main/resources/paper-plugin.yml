@@ -1,0 +1,9 @@
+name: Allib
+version: 1.0.0
+main: marv.allib.plugin.AllibPlugin
+api-version: '1.21'
+description: Allib library core plugin for Paper.
+author: marv
+website: https://github.com/marv/allib
+folia-supported: true
+load: STARTUP

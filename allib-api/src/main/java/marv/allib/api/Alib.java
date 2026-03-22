@@ -1,5 +1,6 @@
 package marv.allib.api;
 
+import marv.allib.contracts.AlibCore;
 import marv.allib.registry.AlibRegistry;
 import marv.allib.registry.LifecycleManager;
 import marv.allib.scheduler.SchedulerBridge;
@@ -8,14 +9,20 @@ import java.util.Optional;
 
 public class Alib {
 
-    private static boolean initialized = false;
-
-    public static void init() {
-        if (initialized) {
+    public static void init(org.bukkit.plugin.Plugin plugin) {
+        if (AlibCore.isInitialized()) {
             return;
         }
+        AlibCore.init(plugin);
         LifecycleManager.setupAutoCleanup();
-        initialized = true;
+    }
+
+    public static void init() {
+        init(null);
+    }
+
+    public static org.bukkit.plugin.Plugin getCorePlugin() {
+        return AlibCore.getCorePlugin();
     }
 
     public static SchedulerBridge scheduler() {
@@ -35,6 +42,6 @@ public class Alib {
     }
 
     public static boolean isInitialized() {
-        return initialized;
+        return AlibCore.isInitialized();
     }
 }

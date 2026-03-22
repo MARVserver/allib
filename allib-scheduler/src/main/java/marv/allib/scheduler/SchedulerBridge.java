@@ -41,8 +41,18 @@ public class SchedulerBridge implements ISchedulerProvider {
     }
 
     @Override
+    public ScheduledTask runRegion(org.bukkit.plugin.Plugin plugin, Location loc, Runnable task) {
+        return provider.runRegion(plugin, loc, task);
+    }
+
+    @Override
     public ScheduledTask runAsync(Runnable task) {
         return provider.runAsync(task);
+    }
+
+    @Override
+    public ScheduledTask runAsync(org.bukkit.plugin.Plugin plugin, Runnable task) {
+        return provider.runAsync(plugin, task);
     }
 
     @Override
@@ -51,7 +61,17 @@ public class SchedulerBridge implements ISchedulerProvider {
     }
 
     @Override
+    public ScheduledTask runLater(org.bukkit.plugin.Plugin plugin, long ticks, Runnable task) {
+        return provider.runLater(plugin, ticks, task);
+    }
+
+    @Override
     public ScheduledTask runRegionLater(Location loc, long ticks, Runnable task) {
         return provider.runRegionLater(loc, ticks, task);
+    }
+
+    @Override
+    public ScheduledTask runRegionLater(org.bukkit.plugin.Plugin plugin, Location loc, long ticks, Runnable task) {
+        return provider.runRegionLater(plugin, loc, ticks, task);
     }
 }

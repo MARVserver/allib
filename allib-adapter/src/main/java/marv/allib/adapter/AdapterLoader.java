@@ -1,6 +1,5 @@
 package marv.allib.adapter;
 
-import marv.allib.contracts.AlibAdapter;
 import marv.allib.contracts.IAlibService;
 import org.bukkit.Bukkit;
 
@@ -13,16 +12,34 @@ public class AdapterLoader {
     private static final List<IAlibService> LOADED_ADAPTERS = new ArrayList<>();
 
     public static void loadAdapters() {
+        // Load via ServiceLoader (standard adapters)
         ServiceLoader.load(IAlibService.class, AdapterLoader.class.getClassLoader())
-            .forEach(adapter -> {
-                try {
-                    adapter.load();
-                    LOADED_ADAPTERS.add(adapter);
-                    Bukkit.getLogger().info("[allib] Loaded adapter: " + adapter.serviceId());
-                } catch (Exception e) {
-                    Bukkit.getLogger().warning("[allib] Failed to load adapter " + adapter.serviceId() + ": " + e.getMessage());
-                }
-            });
+                .forEach(AdapterLoader::loadSingleAdapter);
+
+        // Load via KSP generated loader (if available)
+        try {
+            Class<?> generatedLoader = Class.forName("marv.allib.ksp.generated.AlibServiceLoader");
+            java.lang.reflect.Method loadMethod = generatedLoader.getMethod("loadServices");
+            @SuppressWarnings("unchecked")
+            List<IAlibService> generatedServices = (List<IAlibService>) loadMethod.invoke(null);
+            if (generatedServices != null) {
+                generatedServices.forEach(AdapterLoader::loadSingleAdapter);
+            }
+        } catch (ClassNotFoundException ignored) {
+            // No generated services
+        } catch (Exception e) {
+            Bukkit.getLogger().warning("[allib] Failed to load generated services: " + e.getMessage());
+        }
+    }
+
+    private static void loadSingleAdapter(IAlibService adapter) {
+        try {
+            adapter.load();
+            LOADED_ADAPTERS.add(adapter);
+            Bukkit.getLogger().info("[allib] Loaded adapter/service: " + adapter.serviceId());
+        } catch (Exception e) {
+            Bukkit.getLogger().warning("[allib] Failed to load " + adapter.serviceId() + ": " + e.getMessage());
+        }
     }
 
     public static List<IAlibService> getLoadedAdapters() {

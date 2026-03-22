@@ -8,9 +8,9 @@ public object AlibDsl {
     @DslMarker
     public annotation class AlibDslMarker
 
-    public fun alib(block: AlibScope.() -> Unit) {
-        Alib.init()
-        val scope = AlibScope()
+    public fun alib(plugin: org.bukkit.plugin.Plugin, block: AlibScope.() -> Unit) {
+        Alib.init(plugin)
+        val scope = AlibScope(plugin)
         scope.block()
     }
 
@@ -21,7 +21,7 @@ public object AlibDsl {
 }
 
 @AlibDsl.AlibDslMarker
-public class AlibScope {
+public class AlibScope(public val plugin: org.bukkit.plugin.Plugin) {
 
     public fun scheduler(block: SchedulerDsl.SchedulerScope.() -> Unit) {
         SchedulerDsl.SchedulerScope().block()
