@@ -42,7 +42,8 @@ public class LuckPermsAdapter extends AbstractAdapter {
 
     @Override
     public String version() {
-        return luckPerms != null ? luckPerms.getVersion().getFriendlyString() : "unknown";
+        org.bukkit.plugin.Plugin lp = Bukkit.getPluginManager().getPlugin("LuckPerms");
+        return lp != null ? lp.getDescription().getVersion() : "unknown";
     }
 
     public LuckPerms getApi() {
@@ -51,6 +52,7 @@ public class LuckPermsAdapter extends AbstractAdapter {
 
     public interface ILuckPermsBridge extends marv.allib.contracts.IAlibService {
         LuckPerms getApi();
+
         String getVersion();
     }
 }

@@ -6,7 +6,7 @@ import com.google.devtools.ksp.symbol.KSType
 
 object ServiceValidator {
 
-    fun validate(visitor: AlibKspProcessor.ServiceCollectorVisitor, logger: KSPLogger): List<String> {
+    fun validate(visitor: AlibKspProcessor.ServiceCollectorVisitor): List<String> {
         val errors = mutableListOf<String>()
         val services = visitor.getServices()
 

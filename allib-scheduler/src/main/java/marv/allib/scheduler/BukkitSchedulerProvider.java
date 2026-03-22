@@ -1,9 +1,11 @@
 package marv.allib.scheduler;
 
+import marv.allib.contracts.AlibCore;
 import marv.allib.contracts.ISchedulerProvider;
 import marv.allib.contracts.ScheduledTask;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitScheduler;
 import org.bukkit.scheduler.BukkitTask;
 
@@ -17,24 +19,44 @@ public class BukkitSchedulerProvider implements ISchedulerProvider {
 
     @Override
     public ScheduledTask runRegion(Location loc, Runnable task) {
-        return runLater(1L, task);
+        return runLater(AlibCore.getCorePlugin(), 1L, task);
+    }
+
+    @Override
+    public ScheduledTask runRegion(Plugin plugin, Location loc, Runnable task) {
+        return runLater(plugin, 1L, task);
     }
 
     @Override
     public ScheduledTask runAsync(Runnable task) {
-        BukkitTask bukkitTask = scheduler.runTaskAsynchronously(null, task);
+        return runAsync(AlibCore.getCorePlugin(), task);
+    }
+
+    @Override
+    public ScheduledTask runAsync(Plugin plugin, Runnable task) {
+        BukkitTask bukkitTask = scheduler.runTaskAsynchronously(plugin, task);
         return new BukkitScheduledTask(bukkitTask);
     }
 
     @Override
     public ScheduledTask runLater(long ticks, Runnable task) {
-        BukkitTask bukkitTask = scheduler.runTaskLater(null, task, ticks);
+        return runLater(AlibCore.getCorePlugin(), ticks, task);
+    }
+
+    @Override
+    public ScheduledTask runLater(Plugin plugin, long ticks, Runnable task) {
+        BukkitTask bukkitTask = scheduler.runTaskLater(plugin, task, ticks);
         return new BukkitScheduledTask(bukkitTask);
     }
 
     @Override
     public ScheduledTask runRegionLater(Location loc, long ticks, Runnable task) {
-        return runLater(ticks, task);
+        return runLater(AlibCore.getCorePlugin(), ticks, task);
+    }
+
+    @Override
+    public ScheduledTask runRegionLater(Plugin plugin, Location loc, long ticks, Runnable task) {
+        return runLater(plugin, ticks, task);
     }
 
     private static class BukkitScheduledTask implements ScheduledTask {

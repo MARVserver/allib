@@ -38,22 +38,31 @@ public class LifecycleManager {
 
     public static void setupAutoCleanup() {
         try {
-            Listener listener = new Listener() {};
-            EventExecutor executor = (l, event) -> {
-                if (event instanceof PluginDisableEvent disableEvent) {
-                    AlibRegistry.unregisterPlugin(disableEvent.getPlugin().getName());
-                }
-            };
+            org.bukkit.plugin.Plugin plugin = marv.allib.contracts.AlibCore.getCorePlugin();
 
-            if (Bukkit.getPluginManager().getPlugins().length > 0) {
+            if (plugin == null) {
+                org.bukkit.plugin.Plugin[] plugins = Bukkit.getPluginManager().getPlugins();
+                if (plugins.length > 0) {
+                    plugin = plugins[0];
+                }
+            }
+
+            if (plugin != null) {
+                Listener listener = new Listener() {
+                };
+                EventExecutor executor = (l, event) -> {
+                    if (event instanceof PluginDisableEvent disableEvent) {
+                        AlibRegistry.unregisterPlugin(disableEvent.getPlugin().getName());
+                    }
+                };
+
                 Bukkit.getPluginManager().registerEvent(
-                    PluginDisableEvent.class,
-                    listener,
-                    EventPriority.NORMAL,
-                    executor,
-                    Bukkit.getPluginManager().getPlugins()[0],
-                    false
-                );
+                        PluginDisableEvent.class,
+                        listener,
+                        EventPriority.NORMAL,
+                        executor,
+                        plugin,
+                        false);
             }
         } catch (Exception e) {
             Bukkit.getLogger().warning("[allib] Failed to setup auto-cleanup: " + e.getMessage());

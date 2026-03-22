@@ -20,10 +20,19 @@ class AlibKspProcessor(
         val visitor = ServiceCollectorVisitor()
 
         symbols.forEach { symbol ->
-            symbol.accept(visitor, Unit)
+            if (symbol is KSClassDeclaration && ServiceValidator.validateImplementsIAlibService(symbol, logger)) {
+                symbol.accept(visitor, Unit)
+                validSymbols.add(symbol)
+            }
         }
 
         val services = visitor.getServices()
+        val errors = ServiceValidator.validate(visitor)
+        if (errors.isNotEmpty()) {
+            errors.forEach { logger.error(it) }
+            return emptyList()
+        }
+
         if (services.isNotEmpty()) {
             generateServiceLoader(services)
         }
@@ -56,7 +65,7 @@ class AlibKspProcessor(
         outputStream.close()
     }
 
-    private class ServiceCollectorVisitor : KSVisitorVoid() {
+    public class ServiceCollectorVisitor : KSVisitorVoid() {
         private val services = mutableListOf<ServiceInfo>()
 
         override fun visitClassDeclaration(classDeclaration: KSClassDeclaration, data: Unit) {

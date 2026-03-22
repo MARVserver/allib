@@ -1,5 +1,6 @@
 package marv.allib.registry;
 
+import marv.allib.contracts.AlibCore;
 import marv.allib.contracts.IAlibService;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
@@ -58,8 +59,8 @@ public class AlibRegistry {
         }
         @SuppressWarnings("unchecked")
         List<T> result = entries.stream()
-            .map(e -> serviceClass.cast(e.instance()))
-            .toList();
+                .map(e -> serviceClass.cast(e.instance()))
+                .toList();
         return result;
     }
 
@@ -78,9 +79,7 @@ public class AlibRegistry {
     }
 
     public static void unregisterPlugin(String pluginId) {
-        SERVICES.values().forEach(entries -> 
-            entries.removeIf(e -> e.pluginId().equals(pluginId))
-        );
+        SERVICES.values().forEach(entries -> entries.removeIf(e -> e.pluginId().equals(pluginId)));
         SERVICES.entrySet().removeIf(e -> e.getValue().isEmpty());
     }
 
@@ -92,16 +91,22 @@ public class AlibRegistry {
     private static String getCurrentPluginId() {
         StackTraceElement[] stack = Thread.currentThread().getStackTrace();
         for (StackTraceElement element : stack) {
-            if (element.getClassName().endsWith("Plugin")) {
+            String className = element.getClassName();
+            if (className.endsWith("Plugin") || className.contains(".plugin.")) {
                 try {
-                    Class<?> pluginClass = Class.forName(element.getClassName());
-                    Plugin plugin = Bukkit.getPluginManager().getPlugin(element.getClassName());
-                    if (plugin != null) {
-                        return plugin.getName();
+                    Class<?> clazz = Class.forName(className);
+                    if (Plugin.class.isAssignableFrom(clazz)) {
+                        for (Plugin plugin : Bukkit.getPluginManager().getPlugins()) {
+                            if (plugin.getClass().equals(clazz)) {
+                                return plugin.getName();
+                            }
+                        }
                     }
-                } catch (ClassNotFoundException ignored) {}
+                } catch (ClassNotFoundException ignored) {
+                }
             }
         }
-        return "unknown";
+        org.bukkit.plugin.Plugin core = AlibCore.getCorePlugin();
+        return core != null ? core.getName() : "unknown";
     }
 }
