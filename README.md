@@ -1,4 +1,7 @@
 # Allib
+[![en](https://img.shields.io/badge/lang-en-red.svg)](./README_en.md)
+
+![Allib Image](./image.png)
 
 Allib は、Minecraft サーバー（Folia, Paper, Spigot）向けの強力な汎用ライブラリおよびコアプラグインです。
 サーバーエンジンの差異を吸収し、開発者がロジックに集中できる環境を提供します。
