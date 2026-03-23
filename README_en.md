@@ -36,30 +36,6 @@ Alib.scheduler().runRegion(location, () -> {
 });
 ```
 
-## 📦 Using as a Dependency
 
-### Gradle (Kotlin DSL)
-```kotlin
-repositories {
-    maven("https://jitpack.io")
-}
-
-dependencies {
-    // API only
-    compileOnly("com.github.MARVserver.allib:allib-api:1.1.0")
-    // Include Kotlin DSL
-    compileOnly("com.github.MARVserver.allib:allib-kotlin:1.1.0")
-}
-```
-
-### Maven (pom.xml)
-```xml
-<dependency>
-    <groupId>com.github.MARVserver.allib</groupId>
-    <artifactId>allib-api</artifactId>
-    <version>1.1.0</version>
-    <scope>provided</scope>
-</dependency>
-```
 
 For more detailed technical documentation, please refer to the [Wiki](./wiki/Home.md) (Currently available in Japanese).
