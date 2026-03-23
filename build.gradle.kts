@@ -6,10 +6,11 @@ plugins {
 }
 
 group = "marv.allib"
-version = "1.0.0"
+version = "1.1.0"
 
 repositories {
     mavenCentral()
+    maven("https://mvn.lumine.io/repository/maven-public/")
 }
 
 dependencies {
@@ -24,7 +25,7 @@ dependencies {
 subprojects {
     apply(plugin = "maven-publish")
     group = "marv.allib"
-    version = "1.0.0"
+    version = "1.1.0"
 
     repositories {
         mavenCentral()
