@@ -46,16 +46,16 @@ repositories {
 
 dependencies {
     // API only
-    compileOnly("marv.allib:allib-api:1.1.0")
+    compileOnly("com.github.MARVserver.allib:allib-api:1.1.0")
     // Include Kotlin DSL
-    compileOnly("marv.allib:allib-kotlin:1.1.0")
+    compileOnly("com.github.MARVserver.allib:allib-kotlin:1.1.0")
 }
 ```
 
 ### Maven (pom.xml)
 ```xml
 <dependency>
-    <groupId>marv.allib</groupId>
+    <groupId>com.github.MARVserver.allib</groupId>
     <artifactId>allib-api</artifactId>
     <version>1.1.0</version>
     <scope>provided</scope>

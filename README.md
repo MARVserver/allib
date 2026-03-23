@@ -45,20 +45,21 @@ repositories {
 
 dependencies {
     // APIのみ
-    compileOnly("marv.allib:allib-api:1.0.0")
+    compileOnly("com.github.MARVserver.allib:allib-api:1.1.0")
     // Kotlin DSLを含む場合
-    compileOnly("marv.allib:allib-kotlin:1.0.0")
+    compileOnly("com.github.MARVserver.allib:allib-kotlin:1.1.0")
 }
 ```
 
 ### Maven (pom.xml)
 ```xml
 <dependency>
-    <groupId>marv.allib</groupId>
+    <groupId>com.github.MARVserver.allib</groupId>
     <artifactId>allib-api</artifactId>
     <version>1.1.0</version>
     <scope>provided</scope>
 </dependency>
+
 ```
 
 詳細なドキュメントは [Wiki](./wiki/Home.md) を参照してください。
