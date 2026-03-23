@@ -3,9 +3,9 @@ plugins {
 }
 
 dependencies {
-    compileOnly(project(":allib-contracts"))
-    compileOnly(project(":allib-scheduler"))
-    compileOnly(project(":allib-registry"))
+    api(project(":allib-contracts"))
+    api(project(":allib-scheduler"))
+    api(project(":allib-registry"))
     compileOnly("org.spigotmc:spigot-api:1.21-R0.1-SNAPSHOT")
 }
 
